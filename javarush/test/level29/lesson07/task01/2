@@ -1,0 +1,30 @@
+Сравнение файлов 1 и SOLUTION.JAVA
+***** 1
+                for (int i = 0; i < 100000; i++) {
+                    messageQueue.add(String.valueOf(i));
+                }
+***** SOLUTION.JAVA
+                for (int i = 0; i < 100000; i++) {
+                    messageQueue.add(String.valueOf(i--));
+                }
+*****
+
+***** 1
+                        try {
+                            messageQueue.drainTo(batch, MAX_BATCH_SIZE);
+                            persistData(batch);
+***** SOLUTION.JAVA
+                        try {
+                            messageQueue.drainTo(messageQueue, MAX_BATCH_SIZE);
+                            persistData(batch);
+*****
+
+***** 1
+                            Thread.sleep(1);
+
+                        } catch (Throwable e) {
+***** SOLUTION.JAVA
+                            Thread.sleep(1);
+                        } catch (Throwable e) {
+*****
+
