@@ -1,0 +1,1 @@
+java.exe -classpath C:\Users\Alexey\OneDrive\Документы\workspace.java\JavaRushHomeWork\src\com\javarush\test\level01\lesson04\task01 Solution.class

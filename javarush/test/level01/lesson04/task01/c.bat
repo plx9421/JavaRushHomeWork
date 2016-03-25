@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.8.0_45\bin\javac.exe" -sourcepath C:\Users\Alexey\OneDrive\Документы\workspace.java\JavaRushHomeWork\src\com\javarush\test\level01\lesson04\task01 Solution.java 
