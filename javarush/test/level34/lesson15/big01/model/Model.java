@@ -29,6 +29,7 @@ public class Model {
         gameObjects = levelLoader.getLevel(level);
     }
 
+    //TODO over ingeneering???
     public void restart(){
         restartLevel(currentLevel);
     }

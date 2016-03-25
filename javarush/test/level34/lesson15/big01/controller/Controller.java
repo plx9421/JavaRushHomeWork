@@ -1,13 +1,14 @@
 package com.javarush.test.level34.lesson15.big01.controller;
 
 import com.javarush.test.level34.lesson15.big01.model.Direction;
+import com.javarush.test.level34.lesson15.big01.model.GameObjects;
 import com.javarush.test.level34.lesson15.big01.model.Model;
 import com.javarush.test.level34.lesson15.big01.view.View;
 
 /**
  * Created by Alexey on 23.03.2016.
  */
-public class Controller  implements EventListener{
+public class Controller implements EventListener {
     private View view;
     private Model model;
 
@@ -17,6 +18,9 @@ public class Controller  implements EventListener{
         view.init();
     }
 
+    public GameObjects getGameObjects() {
+        return model.getGameObjects();
+    }
 
     public static void main(String[] args) {
         new Controller();
@@ -41,4 +45,6 @@ public class Controller  implements EventListener{
     public void levelCompleted(int level) {
 
     }
+
+
 }
