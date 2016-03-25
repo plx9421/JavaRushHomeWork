@@ -19,7 +19,8 @@ public class Player extends CollisionObject implements Movable {
         int leftUpperCornerY = getY() - getHeight() / 2;
 
         graphics.drawOval(leftUpperCornerX, leftUpperCornerY, getWidth(), getHeight());
-        graphics.fillOval(leftUpperCornerX, leftUpperCornerY, getWidth(), getHeight());    }
+        graphics.fillOval(leftUpperCornerX, leftUpperCornerY, getWidth(), getHeight());
+    }
 
     @Override
     public void move(int x, int y) {

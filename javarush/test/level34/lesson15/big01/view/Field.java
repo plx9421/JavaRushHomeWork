@@ -1,6 +1,8 @@
 package com.javarush.test.level34.lesson15.big01.view;
 
 
+import com.javarush.test.level34.lesson15.big01.controller.EventListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,7 @@ import java.awt.*;
  */
 public class Field extends JPanel {
     private View view;
+    private EventListener eventListener;
 
     public Field(View view){
         this.view = view;
@@ -20,4 +23,9 @@ public class Field extends JPanel {
         new com.javarush.test.level34.lesson15.big01.model.Home(300, 300).draw(g);
 
     }
+
+    public void setEventListener(EventListener eventListener){
+        this.eventListener = eventListener;
+    }
+
 }
