@@ -30,11 +30,17 @@ public class View extends JFrame {
     }
 
     public void update(){
-        field.repaint();
+        this.field.repaint();
     }
 
     public GameObjects getGameObjects(){
         return controller.getGameObjects();
+    }
+
+    public void completed(int level){
+        update();
+        JOptionPane.showMessageDialog(this, "Вы прошли уровень");
+        controller.startNextLevel();
     }
 
 }

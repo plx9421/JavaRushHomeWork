@@ -24,7 +24,7 @@ public class Field extends JPanel {
 //        new com.javarush.test.level34.lesson15.big01.model.Home(300, 300).draw(g);
 
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(1, 1, view.getWidth(), view.getHeight());
+        graphics.fillRect(0, 0, view.getWidth(), view.getHeight());
 
         for (GameObject g : view.getGameObjects().getAll())
             g.draw(graphics);
