@@ -49,7 +49,6 @@ public class Controller implements EventListener {
 
     @Override
     public void levelCompleted(int level) {
-
         view.completed(level);
     }
 

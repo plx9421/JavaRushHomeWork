@@ -10,10 +10,9 @@ import java.nio.file.Paths;
  */
 public class Model {
     private EventListener eventListener;
-    private GameObjects gameObjects;
     private int currentLevel = 1;
-    LevelLoader levelLoader = new LevelLoader(Paths.get("C:\\Users\\Alexey\\OneDrive\\Documents\\workspace.java\\JavaRushHomeWork\\src\\com\\javarush\\test\\level34\\lesson15\\big01\\res\\levels.txt"));
-
+    private LevelLoader levelLoader = new LevelLoader(Paths.get("C:\\Users\\Alexey\\OneDrive\\Documents\\workspace.java\\JavaRushHomeWork\\src\\com\\javarush\\test\\level34\\lesson15\\big01\\res\\levels.txt"));
+    private GameObjects gameObjects = levelLoader.getLevel(currentLevel); ;
 
     public static final int FIELD_SELL_SIZE = 20;
 
@@ -26,7 +25,7 @@ public class Model {
     }
 
     public void restartLevel(int level) {
-        gameObjects = levelLoader.getLevel(level);
+        this.gameObjects = levelLoader.getLevel(level);
     }
 
     //TODO over ingeneering???
