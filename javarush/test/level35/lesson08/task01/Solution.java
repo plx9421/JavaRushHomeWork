@@ -3,6 +3,7 @@ package com.javarush.test.level35.lesson08.task01;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
 /* Wildcards
 Перепишите дженерики в методе add импользуя wildcards.
 Логику не меняйте.
