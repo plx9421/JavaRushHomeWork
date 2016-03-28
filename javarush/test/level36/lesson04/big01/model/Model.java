@@ -8,6 +8,8 @@ import com.javarush.test.level36.lesson04.big01.model.ModelData;
 public interface Model {
     ModelData getModelData();
 
+    void loadUserById(long userId);
+
     void loadUsers();
 
     void loadDeletedUsers();
