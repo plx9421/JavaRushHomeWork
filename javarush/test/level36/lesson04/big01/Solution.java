@@ -8,8 +8,7 @@ import com.javarush.test.level36.lesson04.big01.view.EditUserView;
 import com.javarush.test.level36.lesson04.big01.view.UsersView;
 
 public class Solution {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Model model = new MainModel();
         UsersView usersView = new UsersView();
         EditUserView editUserView = new EditUserView();
@@ -28,5 +27,6 @@ public class Solution {
         usersView.fireEventOpenUserEditForm(126);
 
         editUserView.fireEventUserDeleted(124);
+        editUserView.fireEventUserChanged("Ivanov Ivan", 123, 5);
     }
 }
