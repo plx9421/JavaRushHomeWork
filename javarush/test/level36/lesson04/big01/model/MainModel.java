@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Alexey on 28.03.2016.
  */
-public class MainModel implements Model{
+public class MainModel implements Model {
     private UserService userService = new UserServiceImpl();
     private ModelData modelData = new ModelData();
 
@@ -20,14 +20,14 @@ public class MainModel implements Model{
 
     @Override
     public void loadUsers() {
-        modelData.setUsers(userService.getUsersBetweenLevels(1, 100));
         modelData.setDisplayDeletedUserList(false);
+        modelData.setUsers(getActiveUsers(userService.getUsersBetweenLevels(1, 100)));
     }
 
     public void loadDeletedUsers() {
+        modelData.setDisplayDeletedUserList(true);
         List<User> users = userService.getAllDeletedUsers();
         modelData.setUsers(users);
-        modelData.setDisplayDeletedUserList(true);
     }
 
     public void loadUserById(long userId) {
@@ -35,4 +35,13 @@ public class MainModel implements Model{
         modelData.setActiveUser(user);
     }
 
+    public void deleteUserById(long id) {
+        userService.deleteUser(id);
+        modelData.setDisplayDeletedUserList(false);
+        modelData.setUsers(getActiveUsers(userService.getUsersBetweenLevels(1,100)));
+    }
+
+    private List<User> getActiveUsers(List<User> userList){
+        return userService.filterOnlyActiveUsers(userList);
+    }
 }

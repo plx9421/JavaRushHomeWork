@@ -9,6 +9,10 @@ import com.javarush.test.level36.lesson04.big01.model.ModelData;
 public class EditUserView implements View{
     private Controller controller;
 
+    public void fireEventUserDeleted(long id){
+        controller.onUserDelete(id);
+    }
+
     @Override
     public void refresh(ModelData modelData) {
         System.out.println("User to be edited:");
@@ -20,7 +24,7 @@ public class EditUserView implements View{
 
     @Override
     public void setController(Controller controller) {
-
+        this.controller = controller;
     }
 
 }
