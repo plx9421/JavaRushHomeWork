@@ -3,7 +3,7 @@
 
 1. Внутри StatisticStorage создайте единственный метод void put(EventDataRow data).
 
-2. Чтобы методом put(EventDataRow data) добавить объект data в данные карты, нужен тип события - EventType.
+2. Чтобы методом p  ut(EventDataRow data) добавить объект data в данные карты, нужен тип события - EventType.
 Будет правильно, если событие будет хранить в себе свой тип. Поэтому
 2.1. в интерфейс EventDataRow добавь метод EventType getType()
 2.2. реализуй этот метод в каждом классе-событии: CookedOrderEventDataRow, NoAvailableVideoEventDataRow, VideoSelectedEventDataRow

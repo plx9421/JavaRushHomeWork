@@ -3,12 +3,11 @@ package com.javarush.test.level27.lesson15.big01;
 import com.javarush.test.level27.lesson15.big01.ad.AdvertisementManager;
 import com.javarush.test.level27.lesson15.big01.ad.NoVideoAvailableException;
 import com.javarush.test.level27.lesson15.big01.kitchen.Order;
-import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
-import com.javarush.test.level27.lesson15.big01.statistic.event.NoAvailableVideoEventDataRow;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Alexey on 14.02.2016.
@@ -47,7 +46,6 @@ public class Tablet extends Observable
         catch (NoVideoAvailableException e)
         {
             logger.log(Level.INFO, "No video is available for the order " + order);
-            StatisticManager.getInstance().register(new NoAvailableVideoEventDataRow(order.getTotalCookingTime()));
         }
     }
 

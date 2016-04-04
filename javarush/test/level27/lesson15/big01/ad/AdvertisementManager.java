@@ -48,10 +48,9 @@ public class AdvertisementManager {
                     advertisement.getAmountPerOneDisplaying(),
                     1000 * advertisement.getAmountPerOneDisplaying() / advertisement.getDuration()
             ));
-            StatisticManager.getInstance().register(new VideoSelectedEventDataRow(selected, amount, totalDuration));
-
             advertisement.revalidate();
         }
+        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(selected, amount, totalDuration));
     }
 
     private List<Advertisement> getOptimalAdvList(List<Advertisement> srcList, int timeSeconds) {

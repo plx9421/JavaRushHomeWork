@@ -34,16 +34,17 @@ public class Order
     public int getTotalCookingTime()
     {
         int resultat = 0;
-
-        for (int i = 0; i < dishes.size(); i++)
-        {
-            resultat += dishes.get(i).getDuration();
+        for (Dish dish : dishes) {
+            resultat += dish.getDuration();
         }
-
         return resultat;
     }
 
     public boolean isEmpty(){
         return dishes == null || dishes.isEmpty();
+    }
+
+    public Tablet getTablet() {
+        return tablet;
     }
 }

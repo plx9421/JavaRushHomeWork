@@ -15,31 +15,24 @@ public class StatisticManager {
     private static StatisticManager ourInstance = new StatisticManager();
     private StatisticStorage statisticStorage = new StatisticStorage();
 
-//    private static StatisticManager.StatisticStorage statisticStorage = getInstance().new StatisticStorage();
-
     public static StatisticManager getInstance() {
         return ourInstance;
     }
 
-    private StatisticManager() {
-    }
+    private StatisticManager() {}
 
     public void register(EventDataRow data){
         statisticStorage.put(data);
     }
 
-
     private class StatisticStorage{
         private Map<EventType, List<EventDataRow>> hashMap = new HashMap<>();
-
-        public StatisticStorage() {
+        private StatisticStorage() {
             for (EventType e : EventType.values()){
                 hashMap.put(e, new ArrayList<EventDataRow>());
             }
         }
-
         private void put(EventDataRow data){
-            if (data == null) return;
             hashMap.get(data.getType()).add(data);
         }
     }
