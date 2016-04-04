@@ -17,6 +17,10 @@ public class Restaurant
         cook.addObserver(new Waitor());
         tablet.createOrder();
 
-
+        DirectorTablet directorTablet = new DirectorTablet();
+        directorTablet.printAdvertisementProfit();
+        directorTablet.printCookWorkloading();
+        directorTablet.printActiveVideoSet();
+        directorTablet.printArchivedVideoSet();
     }
 }
