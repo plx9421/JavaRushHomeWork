@@ -1,30 +1,21 @@
 package com.javarush.test.level27.lesson15.big01.kitchen;
 
 /**
- * Created by Alexey on 14.02.2016.
+ * Created by Alexey on 05.04.2016.
  */
-public enum Dish
-{
-    Fish(25), Steak(30), Soup(15), Juice(5), Water(3);
+public enum Dish {
+    Fish, Steak, Soup, Juice, Water;
 
-    private int duration;
-
-    Dish(int duration) { this.duration = duration; }
-
-    public int getDuration()
-    {
-        return duration;
-    }
-
-    public static String allDishesToString()
-    {
-        Dish[] t = Dish.values();
-        StringBuilder result = new StringBuilder(t.length);
-        for (int i = 0; i < t.length; i++)
-        {
-            if (i == t.length - 1) result.append(t[i].name());
-            else result.append(t[i].name() + ", ");
+    public static String allDishesToString(){
+        Dish[] dishs = Dish.values();
+        String result = "";
+        for (int i = 0; i < dishs.length; i++) {
+            if (i != (dishs.length - 1)) {
+                result += dishs[i].toString() + ", ";
+            } else {
+                result += dishs[i].toString();
+            }
         }
-        return result.toString();
+        return result;
     }
 }
