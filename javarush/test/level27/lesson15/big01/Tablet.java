@@ -12,25 +12,20 @@ import java.util.logging.Logger;
 /**
  * Created by Alexey on 14.02.2016.
  */
-public class Tablet extends Observable
-{
+public class Tablet extends Observable {
     public final int number;
 
     public static Logger logger = Logger.getLogger(Tablet.class.getName());
 
-    public Tablet(int number)
-    {
+    public Tablet(int number) {
         this.number = number;
     }
 
-    public void createOrder()
-    {
+    public void createOrder() {
         Order order = null;
-        try
-        {
+        try {
             order = new Order(this);
-            if (!order.isEmpty())
-            {
+            if (!order.isEmpty()) {
                 ConsoleHelper.writeMessage(order.toString());
                 setChanged();
                 notifyObservers(order);
@@ -38,20 +33,15 @@ public class Tablet extends Observable
                 manager.processVideos();
             }
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             logger.log(Level.SEVERE, "Console is unavailable.");
-        }
-        catch (NoVideoAvailableException e)
-        {
+        } catch (NoVideoAvailableException e) {
             logger.log(Level.INFO, "No video is available for the order " + order);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Tablet{number=" + number + '}';
     }
 }

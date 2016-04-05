@@ -33,11 +33,11 @@ public class Order
 
     public int getTotalCookingTime()
     {
-        int resultat = 0;
+        int time = 0;
         for (Dish dish : dishes) {
-            resultat += dish.getDuration();
+            time += dish.getDuration();
         }
-        return resultat;
+        return time;
     }
 
     public boolean isEmpty(){

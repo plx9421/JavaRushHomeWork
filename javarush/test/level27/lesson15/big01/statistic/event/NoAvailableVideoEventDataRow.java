@@ -14,14 +14,6 @@ public class NoAvailableVideoEventDataRow implements EventDataRow{
         this.currentDate = new Date();
     }
 
-    public int getTotalDuration() {
-        return totalDuration;
-    }
-
-    public Date getCurrentDate() {
-        return currentDate;
-    }
-
     @Override
     public EventType getType() {
         return EventType.NO_AVAILABLE_VIDEO;
