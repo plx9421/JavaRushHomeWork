@@ -23,6 +23,17 @@ public class Order {
         this.tablet = table;
     }
 
+    public int getTotalCookingTime(){
+        int time = 0;
+        for (Dish dish : dishes) {
+            time += dish.getDuration();
+        }
+        return time;
+    }
+    public boolean isEmpty(){
+        return dishes == null || dishes.isEmpty();
+    }
+
     @Override
     public String toString() {
         if (dishes == null || dishes.isEmpty()) return "";
