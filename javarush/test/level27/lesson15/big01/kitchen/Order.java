@@ -11,17 +11,22 @@ import java.util.List;
  */
 public class Order {
     private List<Dish> dishes;
-    private Tablet table;
+    private Tablet tablet;
 
-    public Order(Tablet table) throws IOException {
-        this.table = table;
+    public Order(Tablet tablet) throws IOException {
+        this.tablet = tablet;
         this.dishes = ConsoleHelper.getAllDishesForOrder();
+    }
+
+    public Order(List<Dish> dishes, Tablet table) {
+        this.dishes = dishes;
+        this.tablet = table;
     }
 
     @Override
     public String toString() {
         if (dishes == null || dishes.isEmpty()) return "";
-        return "Your order: " + dishes + " of Tablet{number=" + table.getNumber() + "}";
+        return "Your order: " + dishes + " of " + tablet;
     }
 }
 
