@@ -8,4 +8,5 @@ package com.javarush.test.level27.lesson15.big01.ad;
 //        Он также будет взаимодействовать с плеером и отображать ролики
 
 public class AdvertisementManager {
+    private final AdvertisementStorage storage = AdvertisementStorage.getInstance();
 }
