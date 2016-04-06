@@ -19,20 +19,39 @@ public class StatisticManager {
         return ourInstance;
     }
 
+//For Test. Begin
+    public StatisticStorage getStorage() {
+        return storage;
+    }
+
+    public Map<EventType, List<EventDataRow>> getEvents() {
+        return storage.events;
+    }
+
+//For Test. End
+
+
     private StatisticManager() {
     }
 
     public void register(EventDataRow data){
-        //TODO
+        if (data == null) return;
+        storage.put(data);
     }
 
     private class StatisticStorage{
         Map<EventType, List<EventDataRow>> events = new TreeMap<>();
 
+
         public StatisticStorage() {
             for (EventType event : EventType.values()) {
                 events.put(event, new ArrayList<EventDataRow>());
             }
+        }
+
+        private void put(EventDataRow data){
+            if (data == null) return;
+            events.get(data.getType()).add(data);
         }
     }
 }

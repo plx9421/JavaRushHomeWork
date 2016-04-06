@@ -39,5 +39,13 @@ public class Order {
         if (dishes == null || dishes.isEmpty()) return "";
         return "Your order: " + dishes + " of " + tablet;
     }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public Tablet getTablet() {
+        return tablet;
+    }
 }
 

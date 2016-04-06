@@ -1,6 +1,8 @@
 package com.javarush.test.level27.lesson15.big01.ad;
 
 import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
+import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
+import com.javarush.test.level27.lesson15.big01.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +62,8 @@ public class AdvertisementManager {
             ConsoleHelper.writeMessage(result);
             advertisement.revalidate();
         }
+        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(selected, amount, totalDuration));
+
     }
 
     private List<Advertisement> getOptimalAdvList(List<Advertisement> previousList, Advertisement previousAd, int remainingTime,
