@@ -2,6 +2,7 @@ package com.javarush.test.level27.lesson15.big01;
 
 import com.javarush.test.level27.lesson15.big01.kitchen.Cook;
 import com.javarush.test.level27.lesson15.big01.kitchen.Waitor;
+import com.javarush.test.level27.lesson15.big01.statistic.StatisticEventManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,12 @@ public class Restaurant {
 
 
         Cook cook1 = new Cook("Amigo");
-        cook1.addObserver(new Waitor());
-
         Cook cook2 = new Cook("Petrov");
+
+        StatisticEventManager.getInstance().register(cook1);
+        StatisticEventManager.getInstance().register(cook2);
+
+        cook1.addObserver(new Waitor());
         cook2.addObserver(new Waitor());
 
         List<Tablet> tablets = new ArrayList<>();
