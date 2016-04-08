@@ -16,11 +16,11 @@ import static org.junit.Assert.*;
 /**
  * Created by Alexey on 06.04.2016.
  */
-public class StatisticManagerTest {
+public class StatisticEventManagerTest {
 
     @Test
     public void testGetInstance() throws Exception {
-        StatisticManager manager = StatisticManager.getInstance();
+        StatisticEventManager manager = StatisticEventManager.getInstance();
         int actual = manager.getEvents().size();
         int expected = 3;
         assertEquals(expected, actual);
@@ -36,7 +36,7 @@ public class StatisticManagerTest {
         dishes.add(Dish.valueOf("Juice"));
         dishes.add(Dish.valueOf("Water"));
         Order order = new Order(dishes, new Tablet(5));
-        StatisticManager manager = StatisticManager.getInstance();
+        StatisticEventManager manager = StatisticEventManager.getInstance();
 
         int expected = manager.getEvents().get(EventType.COOKED_ORDER).size();
         manager.register(new CookedOrderEventDataRow(order.getTablet().toString(), "Amigo", order.getTotalCookingTime() * 60, order.getDishes()));
@@ -51,7 +51,7 @@ public class StatisticManagerTest {
 
     @Test
     public void testGetAmount() throws Exception {
-        StatisticManager manager = StatisticManager.getInstance();
+        StatisticEventManager manager = StatisticEventManager.getInstance();
 
         GregorianCalendar date = new GregorianCalendar();
         date.setTime(new Date());
@@ -86,7 +86,7 @@ public class StatisticManagerTest {
 
     @Test
     public void testGetCookWorkloading() throws Exception {
-        StatisticManager manager = StatisticManager.getInstance();
+        StatisticEventManager manager = StatisticEventManager.getInstance();
 
         GregorianCalendar date = new GregorianCalendar();
         date.setTime(new Date());

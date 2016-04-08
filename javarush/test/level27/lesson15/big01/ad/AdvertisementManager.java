@@ -1,7 +1,7 @@
 package com.javarush.test.level27.lesson15.big01.ad;
 
 import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
-import com.javarush.test.level27.lesson15.big01.statistic.StatisticManager;
+import com.javarush.test.level27.lesson15.big01.statistic.StatisticEventManager;
 import com.javarush.test.level27.lesson15.big01.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.ArrayList;
@@ -31,11 +31,11 @@ public class AdvertisementManager {
 //    Для модуля тестов - Начало
     private List<String> outPutList = new ArrayList<>();
 
-    public AdvertisementStorage getStorage() {
+    AdvertisementStorage getStorage() {
         return storage;
     }
 
-    public List<String> testProcessVideos() throws NoVideoAvailableException {
+    List<String> testProcessVideos() throws NoVideoAvailableException {
         processVideos();
         return outPutList;
     }
@@ -62,7 +62,7 @@ public class AdvertisementManager {
             ConsoleHelper.writeMessage(result);
             advertisement.revalidate();
         }
-        StatisticManager.getInstance().register(new VideoSelectedEventDataRow(selected, amount, totalDuration));
+        StatisticEventManager.getInstance().register(new VideoSelectedEventDataRow(selected, amount, totalDuration));
 
     }
 
@@ -92,7 +92,7 @@ public class AdvertisementManager {
         } else if (profit == maxProfit && remainingTime == minRemainingTime && bestResult.size() > newList.size())
             bestResult = newList;
         if (bestResult.isEmpty()) {
-//            StatisticManager.getInstance().register(new NoAvailableVideoEventDataRow(timeSeconds));
+//            StatisticEventManager.getInstance().register(new NoAvailableVideoEventDataRow(timeSeconds));
             throw new NoVideoAvailableException();
         }
         Collections.sort(bestResult, new Comparator<Advertisement>() {

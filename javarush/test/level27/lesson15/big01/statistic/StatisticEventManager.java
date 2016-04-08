@@ -11,12 +11,12 @@ import java.util.*;
 /**
  * Created by Alexey on 06.04.2016.
  */
-public class StatisticManager {
-    private static StatisticManager ourInstance = new StatisticManager();
+public class StatisticEventManager {
+    private static StatisticEventManager ourInstance = new StatisticEventManager();
     private StatisticStorage storage = new StatisticStorage();
     private Set<Cook> cooks = new HashSet<>();
 
-    public static StatisticManager getInstance() {
+    public static StatisticEventManager getInstance() {
         return ourInstance;
     }
 
@@ -27,7 +27,7 @@ public class StatisticManager {
 //For Test. End
 
 
-    private StatisticManager() {
+    private StatisticEventManager() {
     }
 
     public void register(EventDataRow data) {
