@@ -20,6 +20,13 @@ public class VideoSelectedEventDataRow implements EventDataRow{
         this.totalDuration = totalDuration;
         this.currentDate = new Date();
     }
+//Constructor for Tests
+    public VideoSelectedEventDataRow(List<Advertisement> optimalVideoSet, long amount, int totalDuration, Date currentDate) {
+        this.optimalVideoSet = optimalVideoSet;
+        this.amount = amount;
+        this.totalDuration = totalDuration;
+        this.currentDate = currentDate;
+    }
 
     @Override
     public EventType getType() {
@@ -34,5 +41,9 @@ public class VideoSelectedEventDataRow implements EventDataRow{
     @Override
     public int getTime() {
         return totalDuration;
+    }
+
+    public long getAmount() {
+        return amount;
     }
 }

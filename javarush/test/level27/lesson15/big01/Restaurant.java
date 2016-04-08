@@ -21,6 +21,16 @@ public class Restaurant {
         directorTablet.printActiveVideoSet();
         directorTablet.printArchivedVideoSet();
 
+        Cook cook2 = new Cook("Amigo2");
+        cook2.addObserver(new Waitor());
+        tablet.addObserver(cook2);
+        tablet.createOrder(); //во время второго заказа переводишь системное время на день вперед\назад.
+
+        directorTablet.printAdvertisementProfit();
+        directorTablet.printCookWorkloading();
+        directorTablet.printActiveVideoSet();
+        directorTablet.printArchivedVideoSet();
+
 
     }
 }

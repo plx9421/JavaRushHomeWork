@@ -16,8 +16,8 @@ public class TabletTest {
 
     @Test
     public void testToString() throws Exception {
-        int expected = 5;
-        String actual = new Tablet(expected).toString();
+        String expected = "Tablet{number=4}";
+        String actual = new Tablet(4).toString();
 
         assertEquals(expected, actual);
 

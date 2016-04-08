@@ -21,6 +21,7 @@ public class Advertisement {
         this.amountPerOneDisplaying = initialAmount;
         if (hits != 0)
             this.amountPerOneDisplaying = initialAmount / hits; //стоимость одного показа рекламного объявления в копейках.
+        else this.amountPerOneDisplaying = 0;
 
     }
 
@@ -35,10 +36,12 @@ public class Advertisement {
     public long getAmountPerOneDisplaying() {
         return amountPerOneDisplaying;
     }
+
     public void revalidate() {
         if (hits <= 0) throw new UnsupportedOperationException();
-//        if (hits == 1) { amountPerOneDisplaying += initialAmount % amountPerOneDisplaying; }
         hits--;
+        if (hits == 1) {
+            amountPerOneDisplaying += initialAmount % amountPerOneDisplaying; }
     }
 
     public int getHits() {

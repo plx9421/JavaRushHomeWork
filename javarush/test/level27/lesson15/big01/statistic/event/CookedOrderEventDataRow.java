@@ -22,6 +22,14 @@ public class CookedOrderEventDataRow implements EventDataRow{
         this.cookingDishs = cookingDishs;
         this.currentDate = new Date();
     }
+//Constructor for Tests
+    public CookedOrderEventDataRow(String tabletName, String cookName, int cookingTimeSeconds, List<Dish> cookingDishs, Date currentDate) {
+        this.tabletName = tabletName;
+        this.cookName = cookName;
+        this.cookingTimeSeconds = cookingTimeSeconds;
+        this.cookingDishs = cookingDishs;
+        this.currentDate = currentDate;
+    }
 
     @Override
     public EventType getType() {
@@ -36,5 +44,9 @@ public class CookedOrderEventDataRow implements EventDataRow{
     @Override
     public int getTime() {
         return cookingTimeSeconds;
+    }
+
+    public String getCookName() {
+        return cookName;
     }
 }
