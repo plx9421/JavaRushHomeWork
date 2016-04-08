@@ -10,12 +10,12 @@ import java.util.List;
  * Created by Alexey on 05.04.2016.
  */
 public class Order {
-    private List<Dish> dishes;
+    protected List<Dish> dishes;
     private Tablet tablet;
 
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
-        this.dishes = ConsoleHelper.getAllDishesForOrder();
+        initDishes();
     }
 
     public Order(List<Dish> dishes, Tablet table) {
@@ -23,14 +23,19 @@ public class Order {
         this.tablet = table;
     }
 
-    public int getTotalCookingTime(){
+    protected void initDishes() throws IOException {
+        this.dishes = ConsoleHelper.getAllDishesForOrder();
+    }
+
+    public int getTotalCookingTime() {
         int time = 0;
         for (Dish dish : dishes) {
             time += dish.getDuration();
         }
         return time;
     }
-    public boolean isEmpty(){
+
+    public boolean isEmpty() {
         return dishes == null || dishes.isEmpty();
     }
 
