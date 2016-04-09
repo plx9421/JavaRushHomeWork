@@ -9,8 +9,9 @@ import java.util.Observable;
 /**
  * Created by Alexey on 05.04.2016.
  */
-public class Cook extends Observable{
+public class Cook extends Observable {
     private String name;
+    private boolean busy;
 
     public Cook(String name) {
         this.name = name;
@@ -21,10 +22,22 @@ public class Cook extends Observable{
         return name;
     }
 
-    public void startCookingOrder(Order order){
-        ConsoleHelper.writeMessage("Start cooking - " + order + ", cooking time " + order.getTotalCookingTime() + "min");
-        StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(order.getTablet().toString(), name, order.getTotalCookingTime() * 60, order.getDishes()));
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void startCookingOrder(Order order) {
+        busy = true;
+        int cookingTime = order.getTotalCookingTime();
+        try {
+            Thread.sleep(cookingTime * 10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ConsoleHelper.writeMessage("Start cooking - " + order + ", cooking time " + cookingTime + "min");
+        StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(order.getTablet().toString(), name, cookingTime * 60, order.getDishes()));
         setChanged();
         notifyObservers(order);
+        busy = false;
     }
 }

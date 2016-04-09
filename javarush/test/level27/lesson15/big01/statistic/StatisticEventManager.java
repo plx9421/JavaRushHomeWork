@@ -40,6 +40,10 @@ public class StatisticEventManager {
         cooks.add(cook);
     }
 
+    public Set<Cook> getCooks() {
+        return cooks;
+    }
+
     public Map<Date, Double> getAmount() {
         Map<Date, Double> amountPerDay = new TreeMap<>(Collections.reverseOrder());
         List<EventDataRow> events = storage.getEvents(EventType.SELECTED_VIDEOS);
