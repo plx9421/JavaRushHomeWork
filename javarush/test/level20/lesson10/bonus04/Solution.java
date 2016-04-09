@@ -1,8 +1,7 @@
 package com.javarush.test.level20.lesson10.bonus04;
 
-import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /* Свой список
 Посмотреть, как реализован LinkedList.
@@ -41,7 +40,6 @@ import java.util.List;
     ->8->17
  ->4->10->19
         ->21
-
 Во внутренней реализации элементы должны добавляться по 2 на каждый уровень
 Метод getParent должен возвращать элемент, который на него ссылается.
 Например, 3 ссылается на 7 и на 8, т.е.  getParent("8")=="3", а getParent("13")=="6"
@@ -54,40 +52,136 @@ import java.util.List;
 */
 public class Solution extends AbstractList<String> implements List<String>, Cloneable, Serializable {
 
-    public static void main(String[] args) {
-        List<String> list = new Solution();
-        for (int i = 1; i < 16; i++) {
-            list.add(String.valueOf(i));
+    private class MyIterator implements Iterator<String> {
+        private ArrayList<String> nodes = new ArrayList<>();
+        private Iterator<String> iterator;
+        private String currentValue;
+
+        public MyIterator() {
+            ArrayDeque<Node> queue = new ArrayDeque<>();
+            queue.add(head);
+
+            while (!queue.isEmpty()) {
+                Node node = queue.poll();
+
+                if (node.value != null) nodes.add(node.value);
+
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+
+            iterator = nodes.iterator();
         }
-        System.out.println("Expected 3, actual is " + ((Solution) list).getParent("8"));
-        list.remove("5");
-        System.out.println("Expected null, actual is " + ((Solution) list).getParent("11"));
+
+        @Override
+        public boolean hasNext() {
+            return iterator.hasNext();
+        }
+
+        @Override
+        public String next() {
+            currentValue = iterator.next();
+            return currentValue;
+        }
+
+        @Override
+        public void remove() {
+            Solution.this.remove(currentValue);
+        }
     }
 
+    class Node implements Serializable {
+        public Node parent;
+        public Node left;
+        public Node right;
+        public String value;
 
-    private int size = 0;
-    private Node first;
-    private int maxRing = 0;
+        public Node() {
+        }
 
-
-    private class Node {
-        String key;
-        int ring;
-        Node parent;
-        Node leftSun;
-        Node rightSun;
+        public Node(Node parent, String value) {
+            this.parent = parent;
+            this.value = value;
+        }
     }
+
+    private Node head = new Node();
 
     public String getParent(String value) {
-        //have to be implemented
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        queue.add(head);
+
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+
+            if (value.equals(node.value)) {
+                return node.parent.value;
+            }
+            else {
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+        }
+
         return null;
     }
 
     @Override
+    public Iterator<String> iterator() {
+        return new MyIterator();
+    }
+
+    @Override
+    public void clear() {
+        head = new Node();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        String value = (String)o;
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        queue.add(head);
+
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+
+            if (value.equals(node.value)) {
+                Node parent = node.parent;
+                if (parent.left == node) parent.left = null;
+                else parent.right = null;
+                return true;
+            }
+            else {
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean add(String s) {
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        queue.add(head);
 
+        while (true) {
+            Node node = queue.poll();
 
-        return super.add(s);
+            if (node.left == null) {
+                node.left = new Node(node, s);
+                break;
+            }
+            else queue.add(node.left);
+
+            if (node.right == null) {
+                node.right = new Node(node, s);
+                break;
+            }
+            else queue.add(node.right);
+        }
+
+        return true;
     }
 
     @Override
@@ -97,6 +191,138 @@ public class Solution extends AbstractList<String> implements List<String>, Clon
 
     @Override
     public int size() {
-        return size();
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        queue.add(head);
+
+        int size = 0;
+
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            size++;
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+
+        return size - 1;
+    }
+
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        List<String> list = new Solution();
+        for (int i = 1; i < 16; i++) {
+            list.add(String.valueOf(i));
+        }
+        ((Solution) list).print();
+        System.out.println("list.remove(\"2\") " + list.remove("2"));
+        System.out.println("list.remove(\"9\") " + list.remove("9"));
+        System.out.println("list.remove(\"51\") " + list.remove("51"));
+        ((Solution) list).print();
+        System.out.println("list.add(\"16\") " + list.add("16"));
+        System.out.println("list.add(\"17\") " + list.add("17"));
+        System.out.println("list.add(\"18\") " + list.add("18"));
+        System.out.println("list.add(\"19\") " + list.add("19"));
+        System.out.println("list.add(\"20\") " + list.add("20"));
+        ((Solution) list).print();
+        System.out.println("list.remove(\"18\") " + list.remove("18"));
+        System.out.println("list.remove(\"20\") " + list.remove("20"));
+        ((Solution) list).print();
+        System.out.println("list.add(\"21\") " + list.add("21"));
+        System.out.println("list.add(\"22\") " + list.add("22"));
+        ((Solution) list).print();
+        System.out.println("list.clear()");
+        list.clear();
+        ((Solution) list).print();
+        System.out.println("list.add(\"a\") " + list.add("a"));
+        System.out.println("list.add(\"b\") " + list.add("b"));
+        System.out.println("list.add(\"c\") " + list.add("c"));
+        System.out.println("list.add(\"d\") " + list.add("d"));
+        System.out.println("list.add(\"e\") " + list.add("e"));
+        ((Solution) list).print();
+        System.out.println("list.remove(\"a\") " + list.remove("a"));
+        System.out.println("list.remove(\"b\") " + list.remove("b"));
+        ((Solution) list).print();
+        for (int i = 1; i < 16; i++) {
+            System.out.println("list.add(\"" + i + "\") " + list.add(String.valueOf(i)));
+        }
+        ((Solution) list).print();
+        System.out.println("Parent 3 <- 1 = " + ((Solution) list).getParent("3"));
+        System.out.println("Parent 5 <- 2 = " + ((Solution) list).getParent("5"));
+        System.out.println("Parent 7 <- 3 = " + ((Solution) list).getParent("7"));
+        System.out.println("Parent 10 <- 4 = " + ((Solution) list).getParent("10"));
+        System.out.println("list.remove(\"2\") " + list.remove("2"));
+        ((Solution) list).print();
+        System.out.println("Parent null <- 11 = " + ((Solution) list).getParent("11"));
+        ((Solution) list).print();
+        System.out.println("Size = 9 = " + list.size());
+        System.out.print("\nSave list");
+        FileOutputStream fos = new FileOutputStream("file");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(list);
+        oos.close();
+        fos.close();
+        System.out.println(" done");
+        System.out.print("Load list");
+        FileInputStream fis = new FileInputStream("file");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        List<String> list2 = (List<String>) ois.readObject();
+        ois.close();
+        fis.close();
+        System.out.println(" done\n");
+        ((Solution) list2).print();
+        System.out.println("list.iterator()");
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) System.out.print(iterator.next() + " ");
+        System.out.println();
+        iterator = list.iterator();
+        System.out.println("iterator.next() " + iterator.next());
+        System.out.println("iterator.next() " + iterator.next());
+        System.out.println("iterator.remove() ");
+        iterator.remove();
+        while (iterator.hasNext()) System.out.print(iterator.next() + " ");
+        System.out.println();
+        ((Solution) list).print();
+        iterator = list.iterator();
+        while (iterator.hasNext()) System.out.print(iterator.next() + " ");
+        /*System.out.println("\nlist.listIterator() while .hasNext() .next()");
+        ListIterator<String> listIterator = list.listIterator();
+        while (listIterator.hasNext()) System.out.print(listIterator.next() + " ");
+        System.out.println("\nwhile .hasPrevious() .previous()");
+        while (listIterator.hasPrevious()) System.out.print(listIterator.previous() + " ");
+        System.out.println("\nlistIterator.set(\"0\")");
+        listIterator.set("0");
+        ((Solution) list).print();
+        System.out.println("listIterator.add(\"16\")");
+        listIterator.add("16");
+        ((Solution) list).print();
+        System.out.println("listIterator.next() " + listIterator.next());
+        System.out.println("listIterator.remove()");
+        listIterator.remove();
+        System.out.println("listIterator.nextIndex() " + listIterator.nextIndex());
+        System.out.println("listIterator.previousIndex() " + listIterator.previousIndex());
+        System.out.println("listIterator.previous() " + listIterator.previous());
+        System.out.println("listIterator.previousIndex() " + listIterator.previousIndex());
+        ((Solution) list).print();
+        listIterator = list.listIterator(1);
+        System.out.println("listIterator.nextIndex() " + listIterator.nextIndex());
+        System.out.println("listIterator.next() " + listIterator.next());*/
+    }
+
+    public void print() {
+        System.out.println("=============PRINT=============");
+        if (head.left != null) print(head.left, "");
+        if (head.right != null) print(head.right, "");
+        System.out.println();
+        System.out.println(size());
+        System.out.println("===============================");
+    }
+
+    private void print(Node node, String s) {
+        if (node.equals(node.parent.right)) {
+            System.out.println();
+            System.out.print(s);
+        }
+        System.out.print("->" + node.value);
+        if (node.left != null) print(node.left, s + "|||");
+        if (node.right != null) print(node.right, s + "|||");
     }
 }
