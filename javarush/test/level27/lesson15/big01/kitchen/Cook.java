@@ -5,13 +5,14 @@ import com.javarush.test.level27.lesson15.big01.statistic.StatisticEventManager;
 import com.javarush.test.level27.lesson15.big01.statistic.event.CookedOrderEventDataRow;
 
 import java.util.Observable;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by Alexey on 05.04.2016.
  */
-public class Cook extends Observable {
+public class Cook extends Observable implements Runnable {
     private String name;
-    private boolean busy;
+    private LinkedBlockingQueue<Order> queue;
 
     public Cook(String name) {
         this.name = name;
@@ -22,22 +23,36 @@ public class Cook extends Observable {
         return name;
     }
 
-    public boolean isBusy() {
-        return busy;
+    public void setQueue(LinkedBlockingQueue<Order> queue) {
+        this.queue = queue;
     }
 
     public void startCookingOrder(Order order) {
-        busy = true;
         int cookingTime = order.getTotalCookingTime();
-        try {
-            Thread.sleep(cookingTime * 10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         ConsoleHelper.writeMessage("Start cooking - " + order + ", cooking time " + cookingTime + "min");
         StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(order.getTablet().toString(), name, cookingTime * 60, order.getDishes()));
         setChanged();
         notifyObservers(order);
-        busy = false;
+        try {
+            Thread.sleep(cookingTime * 10);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            if (!queue.isEmpty()) {
+                Order order = queue.poll();
+                if (order != null) {
+                    startCookingOrder(order);
+                }
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ignory) {
+                if (queue.isEmpty()) break;
+            }
+        }
     }
 }

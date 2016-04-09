@@ -14,7 +14,6 @@ import java.util.*;
 public class StatisticEventManager {
     private static StatisticEventManager ourInstance = new StatisticEventManager();
     private StatisticStorage storage = new StatisticStorage();
-    private Set<Cook> cooks = new HashSet<>();
 
     public static StatisticEventManager getInstance() {
         return ourInstance;
@@ -26,22 +25,11 @@ public class StatisticEventManager {
     }
 //For Test. End
 
-
     private StatisticEventManager() {
     }
 
     public void register(EventDataRow data) {
-//        if (data == null) return;
         storage.put(data);
-    }
-
-    public void register(Cook cook) {
-        if (cook == null) return;
-        cooks.add(cook);
-    }
-
-    public Set<Cook> getCooks() {
-        return cooks;
     }
 
     public Map<Date, Double> getAmount() {
@@ -55,7 +43,7 @@ public class StatisticEventManager {
                 if (amountPerDay.containsKey(videoDate)) {
                     amountPerDay.put(videoDate, amountPerDay.get(videoDate) + (0.01d * (double) videoSelected.getAmount()));
                 } else {
-                    amountPerDay.put(videoDate, (0.01d * (double)videoSelected.getAmount()));
+                    amountPerDay.put(videoDate, (0.01d * (double) videoSelected.getAmount()));
                 }
             }
         }
@@ -99,7 +87,6 @@ public class StatisticEventManager {
         result.set(Calendar.MILLISECOND, 0);
         return result.getTime();
     }
-
 
     private class StatisticStorage {
         Map<EventType, List<EventDataRow>> events = new TreeMap<>();

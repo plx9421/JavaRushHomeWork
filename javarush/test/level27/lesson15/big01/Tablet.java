@@ -7,19 +7,24 @@ import com.javarush.test.level27.lesson15.big01.kitchen.Order;
 import com.javarush.test.level27.lesson15.big01.kitchen.TestOrder;
 
 import java.io.IOException;
-import java.util.Observable;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by Alexey on 05.04.2016.
  */
-public class Tablet extends Observable {
+public class Tablet{
     private final int number;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
+    private LinkedBlockingQueue<Order> queue;
 
     public Tablet(int number) {
         this.number = number;
+    }
+
+    public void setQueue(LinkedBlockingQueue<Order> queue) {
+        this.queue = queue;
     }
 
     public void createOrder() {
@@ -44,9 +49,8 @@ public class Tablet extends Observable {
         try {
             if (!order.isEmpty()) {
                 ConsoleHelper.writeMessage(order.toString());
-                setChanged();
-                notifyObservers(order);
                 new AdvertisementManager(order.getTotalCookingTime() * 60).processVideos();
+                queue.add(order);
             }
         } catch (NoVideoAvailableException e) {
             logger.log(Level.INFO, "No video is available for the order " + order);
