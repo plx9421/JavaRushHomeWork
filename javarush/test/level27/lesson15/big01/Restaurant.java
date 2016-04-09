@@ -22,21 +22,21 @@ public class Restaurant {
         StatisticEventManager.getInstance().register(cook1);
         StatisticEventManager.getInstance().register(cook2);
 
-        cook1.addObserver(new Waitor());
-        cook2.addObserver(new Waitor());
+        Waitor waitor = new Waitor();
+        cook1.addObserver(waitor);
+        cook2.addObserver(waitor);
 
-        List<Tablet> tablets = new ArrayList<>();
+        List<Tablet> tablets = new ArrayList<>(5);
+        OrderManager orderManager = new OrderManager();
         for (int i = 0; i < 5; i++) {
-            Tablet tablet = new Tablet(i);
-            tablet.addObserver(cook1);
-            tablet.addObserver(cook2);
+            Tablet tablet = new Tablet(i+1);
+            tablet.addObserver(orderManager);
             tablets.add(tablet);
         }
 
         RandomOrderGeneratorTask randomOrderGeneratorTask = new RandomOrderGeneratorTask(tablets, ORDER_CREATING_INTERVAL);
         Thread thread = new Thread(randomOrderGeneratorTask);
         thread.start();
-
         try {
             thread.sleep(1000);
         } catch (InterruptedException e) {

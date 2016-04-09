@@ -18,8 +18,8 @@ public class RandomOrderGeneratorTask implements Runnable {
     @Override
     public void run() {
         while (true) {
+            tablets.get((int) (Math.random() * tablets.size())).createTestOrder();
             try {
-                tablets.get((int) (Math.random() * tablets.size())).createTestOrder();
                 Thread.sleep(interval);
             } catch (InterruptedException ignory) {
                 break;
