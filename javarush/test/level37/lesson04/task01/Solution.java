@@ -33,22 +33,20 @@ public class Solution<T> extends ArrayList<T> {
     }
 
     public class RoundIterator implements Iterator<T> {
-        private int indexCurrent = 0;
 
         @Override
         public boolean hasNext() {
-            return indexCurrent < Solution.this.size();
+            return Solution.super.iterator().hasNext();
         }
 
         @Override
         public T next() {
-            indexCurrent++;
-            return Solution.this.get(indexCurrent - 1);
+            return Solution.super.iterator().next();
         }
 
         @Override
         public void remove() {
-            Solution.this.remove(indexCurrent);
+            Solution.super.iterator().remove();
         }
     }
 }
