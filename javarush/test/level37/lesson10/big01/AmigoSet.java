@@ -9,6 +9,8 @@ import java.util.Set;
  * Created by Alexey on 11.04.2016.
  */
 public class AmigoSet<E> extends AbstractSet implements Serializable, Cloneable, Set{
+    private final Object PRESENT = new Object();
+
     @Override
     public Iterator iterator() {
         return null;
