@@ -1,5 +1,8 @@
 package com.javarush.test.level37.lesson10.big01;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -8,7 +11,7 @@ import java.util.*;
  */
 public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneable, Set<E> {
     private static final Object PRESENT = new Object();
-    private HashMap<E, Object> map;
+    private transient HashMap<E, Object> map;
 
     public AmigoSet() {
         map = new HashMap<>();
@@ -57,8 +60,27 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
 
     @Override
     public Object clone() throws InternalError {
-        AmigoSet<E> amigoSet = new AmigoSet<>();
-        amigoSet.map = new HashMap<>(map);
+        AmigoSet<E> amigoSet = null;
+        try {
+            amigoSet = (AmigoSet<E>) super.clone();
+            amigoSet.map = (HashMap<E, Object>) this.map.clone();
+        } catch (Exception e) {
+            throw new InternalError();
+        }
         return amigoSet;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt((int) HashMapReflectionHelper.callHiddenMethod(map, "capacity"));
+        out.writeFloat((float) HashMapReflectionHelper.callHiddenMethod(map, "loadFactor"));
+        out.writeObject(new HashSet<Integer>((Collection<Integer>) map.keySet()));
+    }
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        int capacity = in.readInt();
+        float loadFactor = in.readFloat();
+        map = new HashMap<>(capacity, loadFactor);
+        addAll((Collection) in.readObject());
     }
 }
