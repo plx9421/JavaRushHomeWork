@@ -1,9 +1,6 @@
 package com.javarush.test.level37.lesson10.big01;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -76,7 +73,8 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
         out.writeFloat((float) HashMapReflectionHelper.callHiddenMethod(map, "loadFactor"));
         out.writeObject(new HashSet<Integer>((Collection<Integer>) map.keySet()));
     }
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         int capacity = in.readInt();
         float loadFactor = in.readFloat();
@@ -84,4 +82,5 @@ public class AmigoSet<E> extends AbstractSet<E> implements Serializable, Cloneab
         addAll((Collection) in.readObject());
 
     }
+
 }
