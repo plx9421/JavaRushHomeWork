@@ -12,7 +12,7 @@ public class LogEntry {
     private String name;
     private Date date;
     private String event;
-    private String status;
+    private Status status;
 
     public LogEntry(String logString) throws ParseException {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy' 'HH:mm:ss");
@@ -22,7 +22,7 @@ public class LogEntry {
         name = logArray[1];
         date = df.parse(logArray[2]);
         event = logArray[3];
-        status = logArray[4];
+        status = Status.valueOf(logArray[4]);
     }
 
     public String getIp() {
@@ -37,7 +37,7 @@ public class LogEntry {
         return date;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 

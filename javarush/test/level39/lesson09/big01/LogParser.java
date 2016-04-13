@@ -28,6 +28,12 @@ public class LogParser implements IPQuery, UserQuery {
         }
     }
 
+    public LogParser(List<String> list) throws ParseException {
+        for (String s : list) {
+            logEntries.add(new LogEntry(s));
+        }
+    }
+
     private List<File> getFileTree(String root) {
         List<File> fileList = new ArrayList<>();
         File rootDir = new File(root);
@@ -84,7 +90,7 @@ public class LogParser implements IPQuery, UserQuery {
         Set<String> ipSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
-            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(event.toString())) {
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(event.name())) {
                 ipSet.add(logEntry.getIp());
             }
         }
@@ -96,7 +102,7 @@ public class LogParser implements IPQuery, UserQuery {
         Set<String> ipSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
-            if (compareDate(after, before, logEntry.getDate()) && logEntry.getStatus().contains(status.toString())) {
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getStatus() == status) {
                 ipSet.add(logEntry.getIp());
             }
         }
@@ -115,7 +121,14 @@ public class LogParser implements IPQuery, UserQuery {
 
     @Override
     public int getNumberOfUsers(Date after, Date before) {
-        return getAllUsers().size();
+        Set<String> userSet = new HashSet<>();
+
+        for (LogEntry logEntry : logEntries) {
+            if (compareDate(after, before, logEntry.getDate())) {
+                userSet.add(logEntry.getName());
+            }
+        }
+        return userSet.size();
     }
 
     @Override
@@ -146,10 +159,8 @@ public class LogParser implements IPQuery, UserQuery {
         Set<String> UserSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
-            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(event.toString())) {
-                if (logEntry.getStatus().equals(Status.OK.toString())){
-                    UserSet.add(logEntry.getName());
-                }
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(event.name())) {
+                UserSet.add(logEntry.getName());
             }
         }
         return UserSet;
@@ -181,11 +192,9 @@ public class LogParser implements IPQuery, UserQuery {
         Set<String> UserSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
-            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(Event.SOLVE_TASK.toString())) {
-                if (logEntry.getStatus().equals(Status.OK.toString())) {
-                    if (logEntry.getEvent().contains(task + "")) {
-                        UserSet.add(logEntry.getName());
-                    }
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(Event.SOLVE_TASK.name())) {
+                if (logEntry.getEvent().contains(task + "")) {
+                    UserSet.add(logEntry.getName());
                 }
             }
         }
@@ -202,11 +211,10 @@ public class LogParser implements IPQuery, UserQuery {
         Set<String> UserSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
-            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(Event.DONE_TASK.toString())) {
-                if (logEntry.getStatus().equals(Status.OK.toString())) {
-                    if (logEntry.getEvent().contains(task + "")) {
-                        UserSet.add(logEntry.getName());
-                    }
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(Event.DONE_TASK.name())) {
+                String t = task + "";
+                if (logEntry.getEvent().toString().contains(t)) {
+                    UserSet.add(logEntry.getName());
                 }
             }
         }
