@@ -19,6 +19,17 @@ public class Solution {
         System.out.println();
         for (String ip : logParser.getIPsForStatus(Status.OK, null, new Date())) System.out.println(ip);
 
+        System.out.println("getUsersForIP:");
+        for (String ip : logParser.getUsersForIP("127.0.0.1", null, new Date())) System.out.println(ip);
+
+        System.out.println("getLoggedUsers:");
+        for (String ip : logParser.getLoggedUsers(null, new Date())) System.out.println(ip);
+
+        System.out.println("getSolvedTaskUsers");
+        for (String ip : logParser.getSolvedTaskUsers(null, new Date(), 1)) System.out.println(ip);
+
+        System.out.println("getDoneTaskUsers");
+        for (String ip : logParser.getDoneTaskUsers(null, new Date(), 15)) System.out.println(ip);
 
 
     }
