@@ -51,6 +51,11 @@ public class LogParser implements IPQuery {
 
     @Override
     public int getNumberOfUniqueIPs(Date after, Date before) {
+        return getUniqueIPs(after, before).size();
+    }
+
+    @Override
+    public Set<String> getUniqueIPs(Date after, Date before) {
         Set<String> ipSet = new HashSet<>();
 
         for (LogEntry logEntry : logEntries) {
@@ -58,27 +63,42 @@ public class LogParser implements IPQuery {
                 ipSet.add(logEntry.getIp());
             }
         }
-
-        return ipSet.size();
-    }
-
-    @Override
-    public Set<String> getUniqueIPs(Date after, Date before) {
-        return null;
+        return ipSet;
     }
 
     @Override
     public Set<String> getIPsForUser(String user, Date after, Date before) {
-        return null;
+        Set<String> ipSet = new HashSet<>();
+
+        for (LogEntry logEntry : logEntries) {
+            if (compareDate(after, before, logEntry.getDate()) && user.equals(logEntry.getName())) {
+                ipSet.add(logEntry.getIp());
+            }
+        }
+        return ipSet;
     }
 
     @Override
     public Set<String> getIPsForEvent(Event event, Date after, Date before) {
-        return null;
+        Set<String> ipSet = new HashSet<>();
+
+        for (LogEntry logEntry : logEntries) {
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getEvent().contains(event.toString())) {
+                ipSet.add(logEntry.getIp());
+            }
+        }
+        return ipSet;
     }
 
     @Override
     public Set<String> getIPsForStatus(Status status, Date after, Date before) {
-        return null;
+        Set<String> ipSet = new HashSet<>();
+
+        for (LogEntry logEntry : logEntries) {
+            if (compareDate(after, before, logEntry.getDate()) && logEntry.getStatus().contains(status.toString())) {
+                ipSet.add(logEntry.getIp());
+            }
+        }
+        return ipSet;
     }
 }
